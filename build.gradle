@@ -1,0 +1,76 @@
+import java.util.regex.Matcher
+
+plugins {
+    id 'java'
+    id 'idea'
+    id 'jacoco'
+    id 'org.jetbrains.kotlin.jvm' version '1.5.21'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.21'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+    id 'net.researchgate.release' version '2.8.1'
+}
+
+group 'xyz.poeschl.tools.obsstamper'
+
+sourceCompatibility = JavaVersion.VERSION_16
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
+}
+
+dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+    implementation 'io.github.microutils:kotlin-logging-jvm:2.0.10'
+    implementation 'ch.qos.logback:logback-classic:1.2.5'
+    implementation ('net.twasi:obs-websocket-java:1.3.0-SNAPSHOT') {
+        exclude group: 'org.slf4j', module: 'slf4j-simple'
+    }
+
+    testImplementation(platform('org.junit:junit-bom:5.7.2'))
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation "io.mockk:mockk:1.12.0"
+    testImplementation 'com.willowtreeapps.assertk:assertk-jvm:0.24'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = project.sourceCompatibility
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = project.sourceCompatibility
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events 'failed', 'passed', 'skipped', 'started'
+        exceptionFormat 'full'
+        showStackTraces true
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'xyz.poeschl.tools.obsstamper.ApplicationKt'
+    }
+}
+
+shadowJar{
+    archiveClassifier.set('')
+}
+
+release {
+    buildTasks = []
+    preTagCommitMessage = ':bookmark: pre tag commit: '
+    tagCommitMessage = ':bookmark: creating tag: '
+    newVersionCommitMessage = ':bookmark: new version commit: '
+    git {
+        requireBranch = 'master'
+    }
+    versionPatterns = [
+        /(\d+)\.(\d+)\.(\d+)([^\d]*$)/: { Matcher m, Project p -> m.replaceAll("${m[0][1]}.${(m[0][2] as int) + 1}.${m[0][3]}${m[0][4]}") }
+    ]
+}

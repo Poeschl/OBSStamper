@@ -1,0 +1,12 @@
+build/
+target/
+/.gradle/
+/.idea/
+/out/
+/log/
+/classes/
+
+*.zip
+*.jar
+
+!gradle-wrapper.jar
