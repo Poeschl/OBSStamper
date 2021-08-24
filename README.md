@@ -16,12 +16,12 @@ Afterwards download the [latest release form this repository](https://github.com
 Everytime you run the OBSStamper with the command below, it will write the current timestamp of the recording into a text file.
 
 ```shell
-java -jar path/from/install/OBSStamper-1.0.0.jar -o path/to/textfileparent -p MySuperSecretPassword
+java -jar path/from/install/OBSStamper-1.0.0.jar -folder path/to/textfileparent -password MySuperSecretPassword
 ```
 
-With `-o` the parent folder for the generated textfiles can be set. Inside it the files will be named after the namename of the recording file.
+With `--f` or `-folder` the parent folder for the generated textfiles can be set. Inside it the files will be named after the namename of the recording file.
 
-The parameter `-p` sets a password for a secured connection to the websocket plugin. Make sure it is matching the one you specified in the plugin settings.
+The parameter `--p` or `--password` sets a password for a secured connection to the websocket plugin. Make sure it is matching the one you specified in the plugin settings.
 
 ### Use with StreamDeck
 
