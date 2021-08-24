@@ -21,7 +21,7 @@ java -jar path/from/install/OBSStamper-1.0.0.jar -folder path/to/textfileparent 
 
 With `--f` or `-folder` the parent folder for the generated textfiles can be set. Inside it the files will be named after the namename of the recording file.
 
-The parameter `--p` or `--password` sets a password for a secured connection to the websocket plugin. Make sure it is matching the one you specified in the plugin settings.
+The parameter `--p` or `-password` sets a password for a secured connection to the websocket plugin. Make sure it is matching the one you specified in the plugin settings.
 
 ### Use with StreamDeck
 
