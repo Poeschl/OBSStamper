@@ -2,7 +2,7 @@ name: Release version
 on:
   push:
     tags:
-      - *
+      - "*.*.*"
 
 jobs:
   build:
