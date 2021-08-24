@@ -1,5 +1,7 @@
 # OBSStamper
 
+![Latest release](https://img.shields.io/github/v/release/Poeschl/OBSStamper?label=latest%20release)
+
 A little tool which writes timestamps of a obs recording into a text file.
 
 ## Installation
