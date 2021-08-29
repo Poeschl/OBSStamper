@@ -48,12 +48,16 @@ class ObsStamper(host: String, parentFolder: Path, websocketPassword: String?) {
                     LOGGER.info { "OBS is not recording" }
                 } else {
                     val timecode = response.recTimecode
-                    LOGGER.info { "Current timecode: $timecode" }
+                    LOGGER.info { "Current recording timecode: $timecode" }
+                    printTimecode("record", timecode)
+                }
 
-                    val recordDuration = Duration.milliseconds(SimpleDateFormat(TIMECODE_PATTERN).parse(timecode).time)
-                    val startDate = LocalDateTime.now().minus(recordDuration.toJavaDuration())
-
-                    printToFile("${startDate.format(DateTimeFormatter.ofPattern(FILE_TIMESTAMP_PATTERN))}-timestamps.txt", timecode)
+                if (!response.isStreaming) {
+                    LOGGER.info { "OBS is not streaming" }
+                } else {
+                    val timecode = response.streamTimecode
+                    LOGGER.info { "Current streaming timecode: $timecode" }
+                    printTimecode("stream", timecode)
                 }
                 stop()
             }
@@ -64,6 +68,13 @@ class ObsStamper(host: String, parentFolder: Path, websocketPassword: String?) {
     private fun stop() {
         obsController.disconnect()
         exitProcess(0)
+    }
+
+    private fun printTimecode(filesuffix: String, timecode: String) {
+        val recordDuration = Duration.milliseconds(SimpleDateFormat(TIMECODE_PATTERN).parse(timecode).time)
+        val startDate = LocalDateTime.now().minus(recordDuration.toJavaDuration())
+
+        printToFile("${startDate.format(DateTimeFormatter.ofPattern(FILE_TIMESTAMP_PATTERN))}-timestamps-$filesuffix.txt", timecode)
     }
 
     private fun printToFile(filename: String, timecode: String) {
