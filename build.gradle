@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib'
-    implementation 'io.github.microutils:kotlin-logging-jvm:2.1.0'
+    implementation 'io.github.microutils:kotlin-logging-jvm:2.1.14'
     implementation 'ch.qos.logback:logback-classic:1.2.7'
     implementation ('net.twasi:obs-websocket-java:1.2.0') {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
